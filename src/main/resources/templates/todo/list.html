@@ -17,6 +17,13 @@
         <a th:href="@{/todo/new}" class="btn btn-primary">新規作成</a>
     </div>
 
+    <div th:if="${successMessage}" class="alert alert-success fade show js-auto-dismiss" role="alert">
+        <span th:text="${successMessage}">ToDoを削除しました</span>
+    </div>
+    <div th:if="${errorMessage}" class="alert alert-danger fade show js-auto-dismiss" role="alert">
+        <span th:text="${errorMessage}">削除に失敗しました</span>
+    </div>
+
     <div class="card border-0 shadow-sm bg-body-tertiary" th:if="${#lists.isEmpty(todos)}">
         <div class="card-body text-center p-5">
             <h2 class="h4 mb-3">ToDoがまだ登録されていません</h2>
@@ -58,5 +65,19 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const alerts = document.querySelectorAll('.js-auto-dismiss');
+        alerts.forEach(function (alert) {
+            setTimeout(function () {
+                alert.classList.remove('show');
+                alert.classList.add('hide');
+                setTimeout(function () {
+                    alert.remove();
+                }, 200);
+            }, 3000);
+        });
+    });
+</script>
 </body>
 </html>
