@@ -71,6 +71,29 @@ public class TodoController {
         return "redirect:/todo";
     }
 
+    @PostMapping("/{id}/update")
+    public String update(
+            @PathVariable("id") Long id,
+            @RequestParam("title") String title,
+            RedirectAttributes redirectAttributes) {
+        Todo todo = todoService.findById(id);
+        if (todo == null) {
+            redirectAttributes.addFlashAttribute("errorMessage", "更新対象のToDoが見つかりません");
+            return "redirect:/todo";
+        }
+
+        todo.setTitle(title);
+        todo.setCompleted(Boolean.TRUE.equals(todo.getCompleted()));
+        boolean updated = todoService.update(todo);
+
+        if (updated) {
+            redirectAttributes.addFlashAttribute("successMessage", "更新が完了しました");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "更新に失敗しました");
+        }
+        return "redirect:/todo";
+    }
+
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         try {

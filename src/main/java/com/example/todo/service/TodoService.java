@@ -19,6 +19,10 @@ public class TodoService {
         todoMapper.insert(todo);
     }
 
+    public boolean update(Todo todo) {
+        return todoMapper.update(todo) > 0;
+    }
+
     public List<Todo> findAll() {
         return todoMapper.findAll();
     }
