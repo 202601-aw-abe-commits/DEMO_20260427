@@ -17,4 +17,9 @@
         INSERT INTO todos (title, completed)
         VALUES (#{title}, #{completed})
     </insert>
+
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM todos
+        WHERE id = #{id}
+    </delete>
 </mapper>
