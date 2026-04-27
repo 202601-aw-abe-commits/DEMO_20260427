@@ -16,23 +16,21 @@
         <div class="col-md-8 col-lg-6">
             <h1 class="h4 mb-4">登録内容の確認</h1>
 
-            <div class="card shadow-sm mb-4">
-                <div class="card-body">
-                    <h2 class="h6 text-muted mb-2">タイトル</h2>
-                    <p class="fs-5 mb-3" th:text="${title}">サンプルタスク</p>
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <form th:action="@{/todo/complete}" method="post">
+                        <div class="mb-4">
+                            <label for="displayTitle" class="form-label">タイトル</label>
+                            <input id="displayTitle" type="text" class="form-control" th:value="${title}" readonly>
+                            <input type="hidden" name="title" th:value="${title}">
+                        </div>
 
-                    <h2 class="h6 text-muted mb-2">説明</h2>
-                    <p class="mb-3" th:text="${description}">説明サンプル</p>
-
-                    <h2 class="h6 text-muted mb-2">完了状態</h2>
-                    <span class="badge text-bg-success" th:if="${done}">完了</span>
-                    <span class="badge text-bg-secondary" th:unless="${done}">未完了</span>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">登録</button>
+                            <button type="button" class="btn btn-outline-secondary" onclick="history.back()">戻る</button>
+                        </div>
+                    </form>
                 </div>
-            </div>
-
-            <div class="d-flex gap-2">
-                <a th:href="@{/todo/complete}" class="btn btn-primary">登録</a>
-                <a th:href="@{/todo/new}" class="btn btn-outline-secondary">戻る</a>
             </div>
         </div>
     </div>
