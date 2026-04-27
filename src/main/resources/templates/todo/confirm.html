@@ -19,7 +19,14 @@
             <div class="card shadow-sm mb-4">
                 <div class="card-body">
                     <h2 class="h6 text-muted mb-2">タイトル</h2>
-                    <p class="fs-5 mb-0">サンプルタスク</p>
+                    <p class="fs-5 mb-3" th:text="${title}">サンプルタスク</p>
+
+                    <h2 class="h6 text-muted mb-2">説明</h2>
+                    <p class="mb-3" th:text="${description}">説明サンプル</p>
+
+                    <h2 class="h6 text-muted mb-2">完了状態</h2>
+                    <span class="badge text-bg-success" th:if="${done}">完了</span>
+                    <span class="badge text-bg-secondary" th:unless="${done}">未完了</span>
                 </div>
             </div>
 
