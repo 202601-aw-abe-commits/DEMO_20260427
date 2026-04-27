@@ -45,16 +45,23 @@
                     <th scope="col" style="width: 80px;">ID</th>
                     <th scope="col">タイトル</th>
                     <th scope="col" style="width: 140px;">完了状態</th>
-                    <th scope="col" style="width: 200px;">操作</th>
+                    <th scope="col" style="width: 320px;">操作</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="todo : ${todos}">
                     <td th:text="${todo.id}">1</td>
-                    <td th:text="${todo.title}">要件定義を作成する</td>
+                    <td>
+                        <span th:text="${todo.title}"
+                              th:classappend="${todo.completed} == true ? 'text-decoration-line-through text-muted' : ''">要件定義を作成する</span>
+                    </td>
                     <td th:text="${todo.completed} == true ? '完了' : '未完了'">未完了</td>
                     <td>
-                        <div class="d-flex gap-2">
+                        <div class="d-flex flex-wrap gap-2">
+                            <form th:action="@{/todo/{id}/toggle(id=${todo.id})}" method="post" class="mb-0">
+                                <button type="submit" class="btn btn-outline-success btn-sm"
+                                        th:text="${todo.completed} == true ? '未完了に戻す' : '完了にする'">完了にする</button>
+                            </form>
                             <a th:href="@{/todo/{id}/edit(id=${todo.id})}" class="btn btn-outline-primary btn-sm">編集</a>
                             <form th:action="@{/todo/{id}/delete(id=${todo.id})}" method="post" class="mb-0"
                                   onsubmit="return confirm('本当に削除しますか？')">
