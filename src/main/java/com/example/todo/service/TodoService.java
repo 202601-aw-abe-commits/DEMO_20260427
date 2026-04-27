@@ -23,6 +23,10 @@ public class TodoService {
         return todoMapper.findAll();
     }
 
+    public Todo findById(Long id) {
+        return todoMapper.findById(id);
+    }
+
     public boolean deleteById(Long id) {
         return todoMapper.deleteById(id) > 0;
     }
