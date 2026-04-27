@@ -23,10 +23,12 @@ public class TodoController {
 
     @GetMapping
     public String showList(Model model) {
-        List<TodoListRow> todoList = List.of(
-                new TodoListRow(1L, "要件定義を作成する", "未着手"),
-                new TodoListRow(2L, "一覧画面を実装する", "進行中"),
-                new TodoListRow(3L, "単体テストを追加する", "完了"));
+        List<TodoListRow> todoList = todoService.findAll().stream()
+                .map(todo -> new TodoListRow(
+                        todo.getId(),
+                        todo.getTitle(),
+                        Boolean.TRUE.equals(todo.getCompleted()) ? "完了" : "未完了"))
+                .toList();
 
         model.addAttribute("todoList", todoList);
         return "todo/list";
