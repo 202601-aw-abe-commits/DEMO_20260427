@@ -23,14 +23,8 @@ public class TodoController {
 
     @GetMapping
     public String showList(Model model) {
-        List<TodoListRow> todoList = todoService.findAll().stream()
-                .map(todo -> new TodoListRow(
-                        todo.getId(),
-                        todo.getTitle(),
-                        Boolean.TRUE.equals(todo.getCompleted()) ? "完了" : "未完了"))
-                .toList();
-
-        model.addAttribute("todoList", todoList);
+        List<Todo> todos = todoService.findAll();
+        model.addAttribute("todos", todos);
         return "todo/list";
     }
 
@@ -61,6 +55,4 @@ public class TodoController {
         return "redirect:/todo";
     }
 
-    public record TodoListRow(Long id, String title, String status) {
-    }
 }
