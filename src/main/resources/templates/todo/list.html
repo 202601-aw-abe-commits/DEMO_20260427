@@ -47,7 +47,8 @@
                     <td th:text="${todo.title}">要件定義を作成する</td>
                     <td th:text="${todo.completed} == true ? '完了' : '未完了'">未完了</td>
                     <td>
-                        <form th:action="@{/todo/{id}/delete(id=${todo.id})}" method="post" class="mb-0">
+                        <form th:action="@{/todo/{id}/delete(id=${todo.id})}" method="post" class="mb-0"
+                              onsubmit="return confirm('本当に削除しますか？')">
                             <button type="submit" class="btn btn-danger btn-sm">削除</button>
                         </form>
                     </td>
