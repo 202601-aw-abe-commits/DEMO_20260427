@@ -14,32 +14,80 @@
 <div class="container py-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="h3 mb-0">ToDo一覧</h1>
-        <a th:href="@{/todo/new}" class="btn btn-primary">新規登録</a>
+        <a th:href="@{/todo/new}" class="btn btn-primary">新規作成</a>
     </div>
 
-    <div class="card shadow-sm">
+    <div th:if="${successMessage}" class="alert alert-success fade show js-auto-dismiss" role="alert">
+        <span th:text="${successMessage}">ToDoを削除しました</span>
+    </div>
+    <div th:if="${errorMessage}" class="alert alert-danger fade show js-auto-dismiss" role="alert">
+        <span th:text="${errorMessage}">削除に失敗しました</span>
+    </div>
+
+    <div class="card border-0 shadow-sm bg-body-tertiary" th:if="${#lists.isEmpty(todos)}">
+        <div class="card-body text-center p-5">
+            <h2 class="h4 mb-3">ToDoがまだ登録されていません</h2>
+            <p class="text-muted mb-4">
+                最初のタスクを登録して、作業を見える化しましょう。
+            </p>
+            <a th:href="@{/todo/new}" class="btn btn-primary btn-lg px-4">新規作成</a>
+            <p class="small text-muted mt-3 mb-0">
+                「新規作成」ボタンからToDoを追加できます。
+            </p>
+        </div>
+    </div>
+
+    <div class="card shadow-sm" th:unless="${#lists.isEmpty(todos)}">
         <div class="table-responsive">
             <table class="table table-striped table-hover mb-0 align-middle">
                 <thead class="table-dark">
                 <tr>
                     <th scope="col" style="width: 80px;">ID</th>
                     <th scope="col">タイトル</th>
-                    <th scope="col" style="width: 140px;">ステータス</th>
+                    <th scope="col" style="width: 140px;">完了状態</th>
+                    <th scope="col" style="width: 320px;">操作</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:if="${#lists.isEmpty(todoList)}">
-                    <td colspan="3" class="text-center py-4">ToDoがありません。</td>
-                </tr>
-                <tr th:each="todo : ${todoList}">
+                <tr th:each="todo : ${todos}">
                     <td th:text="${todo.id}">1</td>
-                    <td th:text="${todo.title}">要件定義を作成する</td>
-                    <td th:text="${todo.status}">未着手</td>
+                    <td>
+                        <span th:text="${todo.title}"
+                              th:classappend="${todo.completed} == true ? 'text-decoration-line-through text-muted' : ''">要件定義を作成する</span>
+                    </td>
+                    <td th:text="${todo.completed} == true ? '完了' : '未完了'">未完了</td>
+                    <td>
+                        <div class="d-flex flex-wrap gap-2">
+                            <form th:action="@{/todo/{id}/toggle(id=${todo.id})}" method="post" class="mb-0">
+                                <button type="submit" class="btn btn-outline-success btn-sm"
+                                        th:text="${todo.completed} == true ? '未完了に戻す' : '完了にする'">完了にする</button>
+                            </form>
+                            <a th:href="@{/todo/{id}/edit(id=${todo.id})}" class="btn btn-outline-primary btn-sm">編集</a>
+                            <form th:action="@{/todo/{id}/delete(id=${todo.id})}" method="post" class="mb-0"
+                                  onsubmit="return confirm('本当に削除しますか？')">
+                                <button type="submit" class="btn btn-danger btn-sm">削除</button>
+                            </form>
+                        </div>
+                    </td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const alerts = document.querySelectorAll('.js-auto-dismiss');
+        alerts.forEach(function (alert) {
+            setTimeout(function () {
+                alert.classList.remove('show');
+                alert.classList.add('hide');
+                setTimeout(function () {
+                    alert.remove();
+                }, 200);
+            }, 3000);
+        });
+    });
+</script>
 </body>
 </html>
