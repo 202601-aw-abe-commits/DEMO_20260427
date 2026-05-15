@@ -14,7 +14,7 @@
 <div class="container py-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="h3 mb-0">ToDo一覧</h1>
-        <a th:href="@{/todo/new}" class="btn btn-primary">新規作成</a>
+        <a th:href="@{/todo/new}" class="btn btn-primary">新規登録</a>
     </div>
 
     <div th:if="${successMessage}" class="alert alert-success fade show js-auto-dismiss" role="alert">
@@ -30,9 +30,9 @@
             <p class="text-muted mb-4">
                 最初のタスクを登録して、作業を見える化しましょう。
             </p>
-            <a th:href="@{/todo/new}" class="btn btn-primary btn-lg px-4">新規作成</a>
+            <a th:href="@{/todo/new}" class="btn btn-primary btn-lg px-4">新規登録</a>
             <p class="small text-muted mt-3 mb-0">
-                「新規作成」ボタンからToDoを追加できます。
+                「新規登録」ボタンからToDoを追加できます。
             </p>
         </div>
     </div>
